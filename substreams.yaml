@@ -3,6 +3,7 @@ package:
   name: jupiter-lend-substreams
   version: v0.1.0
   url: https://github.com/PaulieB14/jupiter-lend-substreams
+  image: assets/icon.png
   doc: ./README.md
   description: "Jupiter Lend (Fluid-based lending & borrowing on Solana): Earn deposits/withdrawals, Borrow vault positions, liquidations, liquidity-layer supply/borrow flows, exchange prices, rates, revenue, rewards and the Lend DEX (smart collateral/debt). SQL sink (PostgreSQL)."
 
