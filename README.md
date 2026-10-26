@@ -19,7 +19,7 @@ Jupiter Lend lending & borrowing on Solana (Fluid architecture): Earn deposits a
 | Lend DEX (smart col / smart debt) | `jupZ4m2GqUCJ5iueMfzQf8khFfH31d4XAQt3RzCT9Vd` | `LogSwapInfo` (amounts, fee, reserves, price), col/debt liquidity deposit/withdraw/borrow/payback, arbitrage, DEX creation, fee updates |
 | Flashloan | `jupgfSgfuAXv4B6R2Uxu85Z1qdzgju79s6MfZekN6XS` | fee updates (flashloan flows appear as liquidity `LogOperate` with `protocol_type = flashloan`) |
 
-**How events are decoded.** Jupiter Lend emits plain Anchor `emit!` events (`Program data:` logs), not self-CPI events. Liquidity and vault `LogOperate` share a discriminator, so every event is attributed to the exact emitting instruction by walking the log invoke stack against the flattened instruction list (top-level + CPI, execution order). That gives each event the IDL instruction name, the instruction's named accounts (mint, vault config, fToken, DEX …) and the calling program. Transactions whose logs were truncated by the runtime are counted in `truncated_log_tx_count`.
+**How events are decoded.** Jupiter Lend emits plain Anchor `emit!` events (`Program data:` logs), not self-CPI events. Liquidity and vault `LogOperate` share a discriminator, so every event is attributed to the exact emitting instruction by walking the log invoke stack against the flattened instruction list (top-level + CPI, execution order). That gives each event the IDL instruction name, the instruction's named accounts (mint, vault config, fToken, DEX …) and the calling program. Transactions whose logs were truncated by the runtime are counted in `truncated_log_tx_count`. There were 4 of 1,824 in the Oct 10, 2025 window and 0 in recent windows. Events after a truncation point are lost.
 
 **Flow attribution.** `protocol_type` on every liquidity flow comes from the calling program: `earn`, `vault`, `dex`, `flashloan`, or `other` (direct integrators).
 
@@ -91,8 +91,10 @@ SELECT mint, sum(revenue_amount) FROM liquidity_revenue_collections GROUP BY 1;
 
 ## Verification (v0.1.0)
 
-- **Field by field against Solana RPC.** Every event in 2,776 transactions from slots 461,600,000–461,620,000 (Oct 2026) was compared with an independent Python IDL decoder (`verify/`). That covered 7,536 events and 78,111 fields, with 0 differences, 0 missing and 0 extra. A high-volatility window (Oct 10, 2025 crash, 12,000 slots, 145 liquidations) was checked the same way. See the PR for the results.
+- **Field by field against Solana RPC.** Every event in 2,776 transactions from slots 461,600,000–461,620,000 (Oct 2026) was compared with an independent Python IDL decoder (`verify/`). That covered 7,536 events and 78,111 fields, with 0 differences, 0 missing and 0 extra. A high-volatility window was checked the same way: the Oct 10, 2025 crash, slots 372,515,000–372,527,000, 1,793 transactions. That covered 4,903 events and 42,667 fields, including 145 liquidations and 815 vault operations, with 0 differences. Two events came from one transaction the RPC no longer returned.
+- **Consistency across programs.** All 816 T1 vault `LogOperate` col/debt deltas in that window equal the liquidity-layer `LogOperate` flows of the same instruction, so the amounts are in native units and actual amounts are emitted, not `i128::MIN` sentinels.
 - **Completeness.** The set of transactions with Lend events matches the program signature sets from `getSignaturesForAddress`.
+- **Speed.** On Pinax, `db_out` in production mode ran 30,000 recent slots in 91 s, and the block filter cut that to 2,911 processed blocks.
 - **Postgres** (`substreams-sink-sql`). Row counts equal the `map_events` output up to the last flushed block, and the daily aggregates equal the sums of the event rows.
 - **Cross-checks.**
   - fToken exchange prices match the Jupiter Lend API `convertToAssets` to 4–5 significant figures.
