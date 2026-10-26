@@ -1,0 +1,45 @@
+[
+{
+"list": "liquidityOperates",
+"log_index": 0,
+"fields": {
+"protocol": "2vVYHYM8VYnvZqQWpTJSj8o8DBf1wM8pVs3bsTgYZiqJ",
+"protocolType": "earn",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"supplyAmountRaw": "20000000",
+"borrowAmountRaw": "0",
+"withdrawTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"borrowTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"supplyExchangePrice": "1008051147639",
+"borrowExchangePrice": "1010479311720",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "earnUpdateRates",
+"log_index": 1,
+"fields": {
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"fTokenMint": "9BEcn9aPEmhSPbPQeFGjidRiEKki46fVQDyPpSQXPA2D",
+"lending": "2vVYHYM8VYnvZqQWpTJSj8o8DBf1wM8pVs3bsTgYZiqJ",
+"tokenExchangePrice": "1013291813929",
+"liquidityExchangePrice": "1008051147639",
+"instruction": "deposit"
+}
+},
+{
+"list": "earnDeposits",
+"log_index": 2,
+"fields": {
+"sender": "7CtBEwTSE2tx1kd4gcprLVZe9GgDBhndDoFupoHNsphJ",
+"receiver": "7CtBEwTSE2tx1kd4gcprLVZe9GgDBhndDoFupoHNsphJ",
+"assetsRaw": "20000000",
+"sharesMintedRaw": "19737650",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"fTokenMint": "9BEcn9aPEmhSPbPQeFGjidRiEKki46fVQDyPpSQXPA2D",
+"lending": "2vVYHYM8VYnvZqQWpTJSj8o8DBf1wM8pVs3bsTgYZiqJ",
+"instruction": "deposit"
+}
+}
+]

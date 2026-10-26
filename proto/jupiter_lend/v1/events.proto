@@ -1,0 +1,430 @@
+syntax = "proto3";
+
+package jupiter_lend.v1;
+
+// Jupiter Lend (Fluid-based lending on Solana) decoded events.
+//
+// Every event is decoded from the Anchor `emit!` logs ("Program data: <base64>") of the
+// Jupiter Lend programs, attributed to the exact emitting instruction (including CPIs) by
+// walking the transaction's log invoke stack. The emitting instruction's named accounts
+// (from the official IDL) add context the event itself does not carry (mint, vault, ...).
+//
+// Amount conventions:
+//   * `*_raw` fields are integer token base units as decimal strings (u64 / i128 / u128 safe).
+//   * `*_ui` fields are the same value scaled by the mint decimals (exact decimal string),
+//     empty when the decimals are unknown in that transaction.
+//   * Exchange prices are fixed point with 1e12 precision (1.0 == 1000000000000).
+//   * Rates / utilization / fees in basis points where 10000 == 100% (u16 values from the program).
+
+// Context shared by every event.
+message Ctx {
+  uint64 slot = 1;
+  int64 block_time = 2;           // unix seconds
+  string tx_id = 3;               // first signature, base58
+  uint32 tx_index = 4;            // index of the tx in the block
+  uint32 instruction_index = 5;   // index in the flattened (top-level + CPI, execution order) walk
+  uint32 log_index = 6;           // ordinal of the event inside the tx (unique per tx)
+  string instruction = 7;         // IDL name of the emitting instruction, e.g. "operate_perfect_dex"
+  string caller_program = 8;      // program that CPI'd into the emitting program ("" for top-level)
+  string fee_payer = 9;           // tx fee payer (signer #0)
+  uint32 stack_height = 10;       // 1 == top level
+}
+
+message Token {
+  string mint = 1;
+  uint32 decimals = 2;
+  string token_program = 3;
+}
+
+// ---------------------------------------------------------------- Liquidity layer (core)
+
+// liquidity::LogOperate. Every supply/withdraw/borrow/payback that reaches the shared
+// liquidity layer from any protocol (Earn, Borrow vaults, DEX, flashloan).
+message LiquidityOperate {
+  Ctx ctx = 1;
+  string protocol = 2;            // `user` field: the protocol PDA operating (lending, vault, dex)
+  string protocol_type = 3;       // "earn" | "vault" | "dex" | "flashloan" | "other" (from caller program)
+  string mint = 4;
+  string supply_amount_raw = 5;   // signed: >0 supply, <0 withdraw
+  string borrow_amount_raw = 6;   // signed: >0 borrow, <0 payback
+  string supply_amount_ui = 7;
+  string borrow_amount_ui = 8;
+  string withdraw_to = 9;
+  string borrow_to = 10;
+  string supply_exchange_price = 11;
+  string borrow_exchange_price = 12;
+  int32 decimals = 13;            // -1 when unknown
+}
+
+message LiquidityExchangePrices {
+  Ctx ctx = 1;
+  string mint = 2;
+  string supply_exchange_price = 3;
+  string borrow_exchange_price = 4;
+  uint32 borrow_rate_bps = 5;
+  uint32 utilization_bps = 6;
+}
+
+message LiquidityCollectRevenue {
+  Ctx ctx = 1;
+  string mint = 2;
+  string revenue_amount_raw = 3;
+  string revenue_amount_ui = 4;
+  string revenue_collector = 5;
+  int32 decimals = 6;
+}
+
+message LiquidityClaim {
+  Ctx ctx = 1;
+  string user = 2;
+  string mint = 3;
+  string recipient = 4;
+  string amount_raw = 5;
+  string amount_ui = 6;
+  int32 decimals = 7;
+}
+
+message LiquidityRateDataV1 {
+  Ctx ctx = 1;
+  string mint = 2;
+  string kink_bps = 3;
+  string rate_at_utilization_zero_bps = 4;
+  string rate_at_utilization_kink_bps = 5;
+  string rate_at_utilization_max_bps = 6;
+}
+
+message LiquidityRateDataV2 {
+  Ctx ctx = 1;
+  string mint = 2;
+  string kink1_bps = 3;
+  string kink2_bps = 4;
+  string rate_at_utilization_zero_bps = 5;
+  string rate_at_utilization_kink1_bps = 6;
+  string rate_at_utilization_kink2_bps = 7;
+  string rate_at_utilization_max_bps = 8;
+}
+
+message LiquidityTokenConfig {
+  Ctx ctx = 1;
+  string mint = 2;
+  string fee_bps = 3;              // fee on borrower interest (reserve factor)
+  string max_utilization_bps = 4;
+}
+
+message LiquidityUserSupplyConfig {
+  Ctx ctx = 1;
+  string protocol = 2;
+  string mint = 3;
+  uint32 mode = 4;                 // 1 == with interest, 0 == interest free
+  string expand_percent = 5;
+  string expand_duration = 6;
+  string base_withdrawal_limit = 7;
+}
+
+message LiquidityUserBorrowConfig {
+  Ctx ctx = 1;
+  string protocol = 2;
+  string mint = 3;
+  uint32 mode = 4;
+  string expand_percent = 5;
+  string expand_duration = 6;
+  string base_debt_ceiling = 7;
+  string max_debt_ceiling = 8;
+}
+
+// ---------------------------------------------------------------- Earn (lending, fTokens)
+
+message EarnDeposit {
+  Ctx ctx = 1;
+  string sender = 2;
+  string receiver = 3;
+  string assets_raw = 4;
+  string shares_minted_raw = 5;
+  string assets_ui = 6;
+  string mint = 7;
+  string f_token_mint = 8;
+  string lending = 9;
+  int32 decimals = 10;
+}
+
+message EarnWithdraw {
+  Ctx ctx = 1;
+  string sender = 2;
+  string receiver = 3;
+  string owner = 4;
+  string assets_raw = 5;
+  string shares_burned_raw = 6;
+  string assets_ui = 7;
+  string mint = 8;
+  string f_token_mint = 9;
+  string lending = 10;
+  int32 decimals = 11;
+}
+
+message EarnUpdateRates {
+  Ctx ctx = 1;
+  string mint = 2;
+  string f_token_mint = 3;
+  string lending = 4;
+  string token_exchange_price = 5;      // fToken -> underlying, 1e12
+  string liquidity_exchange_price = 6;  // liquidity supply exchange price, 1e12
+}
+
+message EarnRebalance {
+  Ctx ctx = 1;
+  string mint = 2;
+  string f_token_mint = 3;
+  string lending = 4;
+  string assets_raw = 5;
+}
+
+// ---------------------------------------------------------------- Borrow (vaults)
+
+message VaultOperate {
+  Ctx ctx = 1;
+  uint32 vault_id = 2;           // from the LogUserPosition in the same instruction (0 if absent)
+  string vault_config = 3;
+  string supply_mint = 4;
+  string borrow_mint = 5;
+  uint32 nft_id = 6;             // position id
+  string signer = 7;
+  string to = 8;
+  string col_change_raw = 9;     // signed; in collateral token units (T1) or DEX shares (smart col)
+  string debt_change_raw = 10;   // signed; in debt token units (T1) or DEX shares (smart debt)
+  string vault_type = 11;        // "T1" (operate) | "dex" (operate_dex) | "perfect_dex"
+}
+
+message VaultUserPosition {
+  Ctx ctx = 1;
+  string user = 2;
+  uint32 nft_id = 3;
+  uint32 vault_id = 4;
+  string position_mint = 5;
+  sint32 tick = 6;               // i32::MIN when the position has no debt
+  string col_raw = 7;            // collateral after the operation (raw)
+  string borrow_raw = 8;         // debt after the operation (raw)
+  string vault_config = 9;
+}
+
+message VaultLiquidate {
+  Ctx ctx = 1;
+  uint32 vault_id = 2;           // from LogLiquidateInfo in the same instruction
+  string vault_config = 3;
+  string supply_mint = 4;
+  string borrow_mint = 5;
+  string signer = 6;             // liquidator
+  string to = 7;
+  string col_amount_raw = 8;     // collateral seized
+  string debt_amount_raw = 9;    // debt repaid
+  sint32 start_tick = 10;
+  sint32 end_tick = 11;
+  string col_amount_ui = 12;
+  string debt_amount_ui = 13;
+  string vault_type = 14;
+}
+
+message VaultAbsorb {
+  Ctx ctx = 1;
+  uint32 vault_id = 2;
+  string vault_config = 3;
+  string col_amount_raw = 4;
+  string debt_amount_raw = 5;
+}
+
+message VaultExchangePrices {
+  Ctx ctx = 1;
+  uint32 vault_id = 2;
+  string vault_config = 3;
+  string vault_supply_exchange_price = 4;
+  string vault_borrow_exchange_price = 5;
+  string liquidity_supply_exchange_price = 6;
+  string liquidity_borrow_exchange_price = 7;
+}
+
+message VaultRebalance {
+  Ctx ctx = 1;
+  string vault_config = 2;
+  string supply_amount_raw = 3;
+  string borrow_amount_raw = 4;
+}
+
+message VaultClosePosition {
+  Ctx ctx = 1;
+  string signer = 2;
+  uint32 position_id = 3;
+  uint32 vault_id = 4;
+  string position_mint = 5;
+}
+
+message VaultCoreSettings {
+  Ctx ctx = 1;
+  string vault_config = 2;
+  sint32 supply_rate_magnifier = 3;
+  sint32 borrow_rate_magnifier = 4;
+  uint32 collateral_factor = 5;
+  uint32 liquidation_threshold = 6;
+  uint32 liquidation_max_limit = 7;
+  uint32 withdraw_gap = 8;
+  uint32 liquidation_penalty = 9;
+  uint32 borrow_fee = 10;
+}
+
+// One single-parameter vault config update (update_borrow_fee, update_collateral_factor, ...).
+message VaultParamUpdate {
+  Ctx ctx = 1;
+  string vault_config = 2;
+  string param = 3;              // e.g. "borrow_fee", "collateral_factor", "oracle"
+  string value = 4;
+}
+
+message VaultCreated {
+  Ctx ctx = 1;
+  uint32 vault_id = 2;
+  string vault_config = 3;
+  string supply_token = 4;
+  string borrow_token = 5;
+  string oracle = 6;
+  string supply_dex = 7;
+  string borrow_dex = 8;
+  uint32 vault_type = 9;
+  uint32 collateral_factor = 10;
+  uint32 liquidation_threshold = 11;
+  uint32 liquidation_max_limit = 12;
+  uint32 liquidation_penalty = 13;
+  uint32 borrow_fee = 14;
+}
+
+message VaultLiquidationRoundingDiff {
+  Ctx ctx = 1;
+  uint32 vault_id = 2;
+  string actual_debt_amount_raw = 3;
+  string debt_amount_raw = 4;
+  string diff_raw = 5;
+}
+
+// ---------------------------------------------------------------- Earn rewards
+
+message RewardsStart {
+  Ctx ctx = 1;
+  string mint = 2;
+  string reward_amount_raw = 3;
+  uint64 duration = 4;
+  uint64 start_time = 5;
+  bool queued = 6;               // true for LogQueueNextRewards (start_time = 0)
+}
+
+message RewardsTransition {
+  Ctx ctx = 1;
+  string mint = 2;
+  uint64 start_time = 3;
+  uint64 end_time = 4;
+}
+
+message RewardsStop {
+  Ctx ctx = 1;
+  string mint = 2;
+  bool cancelled_queued = 3;     // true for LogCancelQueuedRewards
+}
+
+// ---------------------------------------------------------------- DEX (smart collateral / smart debt)
+
+message DexSwap {
+  Ctx ctx = 1;
+  uint32 dex_id = 2;
+  bool swap0_to1 = 3;
+  string maker = 4;
+  string to = 5;
+  string amount_in_raw = 6;
+  string amount_out_raw = 7;
+  string fee_amount_in_raw = 8;
+  string reserves_token0 = 9;
+  string reserves_token1 = 10;
+  string pool_price = 11;
+  string dex = 12;               // dex account from the instruction ("" when unknown)
+  string token0 = 13;
+  string token1 = 14;
+}
+
+// Deposit / withdraw / borrow / payback of DEX shares (smart col / smart debt liquidity).
+message DexLiquidity {
+  Ctx ctx = 1;
+  uint32 dex_id = 2;
+  string action = 3;             // deposit_col | deposit_perfect_col | withdraw_col | withdraw_perfect_col | withdraw_col_in_one_token | borrow_debt | borrow_perfect_debt | payback_debt | payback_perfect_debt | payback_debt_in_one_token
+  string shares_raw = 4;
+  string token0_amount_raw = 5;
+  string token1_amount_raw = 6;
+  string user = 7;
+  string protocol = 8;
+}
+
+message DexArbitrage {
+  Ctx ctx = 1;
+  uint32 dex_id = 2;
+  string routing = 3;
+  string amount_out_raw = 4;
+}
+
+message DexCreated {
+  Ctx ctx = 1;
+  uint32 dex_id = 2;
+  string token0 = 3;
+  string token1 = 4;
+  bool smart_col = 5;
+  bool smart_debt = 6;
+  uint32 fee = 7;
+  uint32 revenue_cut = 8;
+  string center_price = 9;
+}
+
+message DexFeeUpdate {
+  Ctx ctx = 1;
+  uint32 dex_id = 2;
+  uint32 fee = 3;
+  uint32 revenue_cut = 4;
+}
+
+// ---------------------------------------------------------------- Flashloan
+
+message FlashloanFee {
+  Ctx ctx = 1;
+  uint32 flashloan_fee = 2;
+}
+
+message Events {
+  repeated LiquidityOperate liquidity_operates = 1;
+  repeated LiquidityExchangePrices liquidity_exchange_prices = 2;
+  repeated LiquidityCollectRevenue liquidity_collect_revenues = 3;
+  repeated LiquidityClaim liquidity_claims = 4;
+  repeated LiquidityRateDataV1 liquidity_rate_data_v1 = 5;
+  repeated LiquidityRateDataV2 liquidity_rate_data_v2 = 6;
+  repeated LiquidityTokenConfig liquidity_token_configs = 7;
+  repeated LiquidityUserSupplyConfig liquidity_user_supply_configs = 8;
+  repeated LiquidityUserBorrowConfig liquidity_user_borrow_configs = 9;
+  repeated EarnDeposit earn_deposits = 10;
+  repeated EarnWithdraw earn_withdraws = 11;
+  repeated EarnUpdateRates earn_update_rates = 12;
+  repeated EarnRebalance earn_rebalances = 13;
+  repeated VaultOperate vault_operates = 14;
+  repeated VaultUserPosition vault_user_positions = 15;
+  repeated VaultLiquidate vault_liquidates = 16;
+  repeated VaultAbsorb vault_absorbs = 17;
+  repeated VaultExchangePrices vault_exchange_prices = 18;
+  repeated VaultRebalance vault_rebalances = 19;
+  repeated VaultClosePosition vault_close_positions = 20;
+  repeated VaultCoreSettings vault_core_settings = 21;
+  repeated VaultParamUpdate vault_param_updates = 22;
+  repeated VaultCreated vault_creations = 23;
+  repeated VaultLiquidationRoundingDiff vault_liquidation_rounding_diffs = 24;
+  repeated RewardsStart rewards_starts = 25;
+  repeated RewardsTransition rewards_transitions = 26;
+  repeated RewardsStop rewards_stops = 27;
+  repeated DexSwap dex_swaps = 28;
+  repeated DexLiquidity dex_liquidity = 29;
+  repeated DexArbitrage dex_arbitrages = 30;
+  repeated DexCreated dex_creations = 31;
+  repeated DexFeeUpdate dex_fee_updates = 32;
+  repeated FlashloanFee flashloan_fees = 33;
+  repeated Token tokens = 34;               // mints + decimals seen in this block's Lend txs
+  uint64 lend_tx_count = 35;
+  uint64 truncated_log_tx_count = 36;       // txs whose logs were truncated (events may be missing)
+}

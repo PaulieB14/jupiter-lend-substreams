@@ -1,0 +1,46 @@
+[
+{
+"list": "earnUpdateRates",
+"log_index": 0,
+"fields": {
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"fTokenMint": "9BEcn9aPEmhSPbPQeFGjidRiEKki46fVQDyPpSQXPA2D",
+"lending": "2vVYHYM8VYnvZqQWpTJSj8o8DBf1wM8pVs3bsTgYZiqJ",
+"tokenExchangePrice": "1013291490358",
+"liquidityExchangePrice": "1008050990824",
+"instruction": "withdraw"
+}
+},
+{
+"list": "liquidityOperates",
+"log_index": 1,
+"fields": {
+"protocol": "2vVYHYM8VYnvZqQWpTJSj8o8DBf1wM8pVs3bsTgYZiqJ",
+"protocolType": "earn",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"supplyAmountRaw": "-20000000000",
+"borrowAmountRaw": "0",
+"withdrawTo": "2fV1r53iRL5BNRMgMew5efZbMeUqBGxFKDcdehrDSFfN",
+"borrowTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"supplyExchangePrice": "1008050990824",
+"borrowExchangePrice": "1010479103136",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "earnWithdraws",
+"log_index": 2,
+"fields": {
+"sender": "2fV1r53iRL5BNRMgMew5efZbMeUqBGxFKDcdehrDSFfN",
+"receiver": "2fV1r53iRL5BNRMgMew5efZbMeUqBGxFKDcdehrDSFfN",
+"owner": "2fV1r53iRL5BNRMgMew5efZbMeUqBGxFKDcdehrDSFfN",
+"assetsRaw": "20000000000",
+"sharesBurnedRaw": "19737657121",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"fTokenMint": "9BEcn9aPEmhSPbPQeFGjidRiEKki46fVQDyPpSQXPA2D",
+"lending": "2vVYHYM8VYnvZqQWpTJSj8o8DBf1wM8pVs3bsTgYZiqJ",
+"instruction": "withdraw"
+}
+}
+]

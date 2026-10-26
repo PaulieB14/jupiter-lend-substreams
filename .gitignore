@@ -1,0 +1,39 @@
+# Rust
+/target/
+**/*.rs.bk
+
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables (SECURITY: Never commit JWT tokens)
+.env
+.env.local
+.env.production
+.env.staging
+
+# JWT tokens and API keys
+*.jwt
+*.token
+api-keys.txt
+secrets.txt
+
+# Logs
+*.log
+logs/
+
+# Build artifacts
+dist/
+build/
+*.spkg
+
+# Temporary files
+*.tmp
+*.temp

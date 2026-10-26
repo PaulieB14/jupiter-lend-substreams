@@ -1,0 +1,26 @@
+[
+{
+"list": "liquidityExchangePrices",
+"log_index": 0,
+"fields": {
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"supplyExchangePrice": "1025231582540",
+"borrowExchangePrice": "1037379957677",
+"borrowRateBps": "649",
+"utilizationBps": "9198",
+"instruction": "update_exchange_price"
+}
+},
+{
+"list": "earnUpdateRates",
+"log_index": 1,
+"fields": {
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"fTokenMint": "7GxATsNMnaC88vdwd2t3mwrFuQwwGvmYPrUQ4D6FotXk",
+"lending": "papYEgeG5uPE4niUWZhihUUzVVotJn1mAWbYo2UBSHi",
+"tokenExchangePrice": "1043818287512",
+"liquidityExchangePrice": "1025231582540",
+"instruction": "update_rate"
+}
+}
+]
