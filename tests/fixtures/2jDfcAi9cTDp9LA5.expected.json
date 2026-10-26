@@ -1,0 +1,115 @@
+[
+{
+"list": "liquidityOperates",
+"log_index": 0,
+"fields": {
+"protocol": "DQfkVMGvZzqdq5jwoCRAyD26rJEioPM6kRGjC7BYts5P",
+"protocolType": "dex",
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"supplyAmountRaw": "20000000",
+"borrowAmountRaw": "0",
+"withdrawTo": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"borrowTo": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"supplyExchangePrice": "1025255505959",
+"borrowExchangePrice": "1037409235469",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "liquidityOperates",
+"log_index": 1,
+"fields": {
+"protocol": "DQfkVMGvZzqdq5jwoCRAyD26rJEioPM6kRGjC7BYts5P",
+"protocolType": "dex",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"supplyAmountRaw": "20000000",
+"borrowAmountRaw": "0",
+"withdrawTo": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"borrowTo": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"supplyExchangePrice": "1046080399316",
+"borrowExchangePrice": "1062348950120",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "liquidityOperates",
+"log_index": 2,
+"fields": {
+"protocol": "DQfkVMGvZzqdq5jwoCRAyD26rJEioPM6kRGjC7BYts5P",
+"protocolType": "dex",
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"supplyAmountRaw": "1499834",
+"borrowAmountRaw": "1499834",
+"withdrawTo": "AhPwhwH9y1R4y3z6XCXLNcyrqfzKjcpj5DH1Qb9PS5QQ",
+"borrowTo": "AhPwhwH9y1R4y3z6XCXLNcyrqfzKjcpj5DH1Qb9PS5QQ",
+"supplyExchangePrice": "1025255505959",
+"borrowExchangePrice": "1037409235469",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "liquidityOperates",
+"log_index": 3,
+"fields": {
+"protocol": "DQfkVMGvZzqdq5jwoCRAyD26rJEioPM6kRGjC7BYts5P",
+"protocolType": "dex",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"supplyAmountRaw": "-1499605",
+"borrowAmountRaw": "-1499496",
+"withdrawTo": "AhPwhwH9y1R4y3z6XCXLNcyrqfzKjcpj5DH1Qb9PS5QQ",
+"borrowTo": "AhPwhwH9y1R4y3z6XCXLNcyrqfzKjcpj5DH1Qb9PS5QQ",
+"supplyExchangePrice": "1046080399316",
+"borrowExchangePrice": "1062348950120",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "dexLiquidity",
+"log_index": 5,
+"fields": {
+"dexId": "3",
+"sharesRaw": "19834334186",
+"token0AmountRaw": "20000000",
+"token1AmountRaw": "20000000",
+"user": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"protocol": "AhPwhwH9y1R4y3z6XCXLNcyrqfzKjcpj5DH1Qb9PS5QQ",
+"instruction": "deposit"
+}
+},
+{
+"list": "vaultUserPositions",
+"log_index": 6,
+"fields": {
+"user": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"nftId": "4",
+"vaultId": "108",
+"positionMint": "BGwqmwmYHVzDc9HeCpevBgPHJz5nRbKbedmXAeYhzDmz",
+"tick": "-2147483648",
+"colRaw": "19834334186",
+"borrowRaw": "0",
+"vaultConfig": "AhPwhwH9y1R4y3z6XCXLNcyrqfzKjcpj5DH1Qb9PS5QQ",
+"instruction": "operate_dex"
+}
+},
+{
+"list": "vaultOperates",
+"log_index": 7,
+"fields": {
+"vaultId": "108",
+"vaultConfig": "AhPwhwH9y1R4y3z6XCXLNcyrqfzKjcpj5DH1Qb9PS5QQ",
+"supplyMint": "jupr81YtYssSyPt8jbnGuiWon5f6x9TcDEFxYe3Bdzi",
+"borrowMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"nftId": "4",
+"signer": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"to": "E37LM3znx1FJKFpP3XBxVn6AjzE1o8cn7WwidYDCvcAm",
+"colChangeRaw": "19834334187",
+"debtChangeRaw": "0",
+"vaultType": "dex",
+"instruction": "operate_dex"
+}
+}
+]

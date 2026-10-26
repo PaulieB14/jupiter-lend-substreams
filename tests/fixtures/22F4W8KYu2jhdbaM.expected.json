@@ -1,0 +1,57 @@
+[
+{
+"list": "earnUpdateRates",
+"log_index": 0,
+"fields": {
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"fTokenMint": "7GxATsNMnaC88vdwd2t3mwrFuQwwGvmYPrUQ4D6FotXk",
+"lending": "papYEgeG5uPE4niUWZhihUUzVVotJn1mAWbYo2UBSHi",
+"tokenExchangePrice": "1043586292664",
+"liquidityExchangePrice": "1025053498843",
+"instruction": "update_rate"
+}
+},
+{
+"list": "earnUpdateRates",
+"log_index": 1,
+"fields": {
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"fTokenMint": "7GxATsNMnaC88vdwd2t3mwrFuQwwGvmYPrUQ4D6FotXk",
+"lending": "papYEgeG5uPE4niUWZhihUUzVVotJn1mAWbYo2UBSHi",
+"tokenExchangePrice": "1043586292664",
+"liquidityExchangePrice": "1025053498843",
+"instruction": "update_rate"
+}
+},
+{
+"list": "rewardsStops",
+"log_index": 2,
+"fields": {
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"instruction": "stop_rewards"
+}
+},
+{
+"list": "earnUpdateRates",
+"log_index": 3,
+"fields": {
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"fTokenMint": "7GxATsNMnaC88vdwd2t3mwrFuQwwGvmYPrUQ4D6FotXk",
+"lending": "papYEgeG5uPE4niUWZhihUUzVVotJn1mAWbYo2UBSHi",
+"tokenExchangePrice": "1043586292664",
+"liquidityExchangePrice": "1025053498843",
+"instruction": "update_rate"
+}
+},
+{
+"list": "rewardsStarts",
+"log_index": 4,
+"fields": {
+"mint": "JuprjznTrTSp2UFa3ZBUFgwdAmtZCq4MQCwysN55USD",
+"rewardAmountRaw": "13812672558",
+"duration": "604800",
+"startTime": "1792902609",
+"instruction": "start_rewards"
+}
+}
+]

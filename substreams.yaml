@@ -1,0 +1,55 @@
+specVersion: v0.1.0
+package:
+  name: jupiter-lend-substreams
+  version: v0.1.0
+  url: https://github.com/PaulieB14/jupiter-lend-substreams
+  doc: ./README.md
+  description: "Jupiter Lend (Fluid-based lending & borrowing on Solana): Earn deposits/withdrawals, Borrow vault positions, liquidations, liquidity-layer supply/borrow flows, exchange prices, rates, revenue, rewards and the Lend DEX (smart collateral/debt). SQL sink (PostgreSQL)."
+
+imports:
+  sol: https://spkg.io/streamingfast/solana-common-v0.3.1.spkg
+  database: https://github.com/streamingfast/substreams-sink-database-changes/releases/download/v5.0.0/substreams-sink-database-changes-v5.0.0.spkg
+
+protobuf:
+  files:
+    - jupiter_lend/v1/events.proto
+  importPaths:
+    - ./proto
+  excludePaths:
+    - sf/substreams
+    - google
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: ./target/wasm32-unknown-unknown/release/jupiter_lend_substreams.wasm
+
+network: solana
+
+modules:
+  - name: map_events
+    kind: map
+    initialBlock: 355648000
+    blockFilter:
+      module: sol:program_ids_without_votes
+      query:
+        string: "program:jupeiUmn818Jg1ekPURTpr4mFo29p46vygyykFJ3wZC || program:jup3YeL8QhtSx1e253b2FDvsMNC87fDrgQZivbrndc9 || program:jupr81YtYssSyPt8jbnGuiWon5f6x9TcDEFxYe3Bdzi || program:jup7TthsMgcR9Y3L277b8Eo9uboVSmu1utkuXHNUKar || program:jupZ4m2GqUCJ5iueMfzQf8khFfH31d4XAQt3RzCT9Vd || program:jupgfSgfuAXv4B6R2Uxu85Z1qdzgju79s6MfZekN6XS"
+    inputs:
+      - source: sf.solana.type.v1.Block
+    output:
+      type: proto:jupiter_lend.v1.Events
+
+  - name: db_out
+    kind: map
+    initialBlock: 355648000
+    inputs:
+      - map: map_events
+    output:
+      type: proto:sf.substreams.sink.database.v1.DatabaseChanges
+
+sink:
+  module: db_out
+  type: sf.substreams.sink.sql.v1.Service
+  config:
+    schema: ./schema.sql
+    engine: postgres

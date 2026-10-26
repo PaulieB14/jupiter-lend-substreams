@@ -1,0 +1,36 @@
+[
+{
+"list": "liquidityOperates",
+"log_index": 0,
+"fields": {
+"protocol": "7tkMzCHrWfMZfQr73MPDBjCevba19MB5KvwkNYQkxgjd",
+"protocolType": "vault",
+"mint": "HzwqbKZw8HxMN6bF2yFZNrht3c2iXXzpKcFu7uBEDKtr",
+"supplyAmountRaw": "0",
+"borrowAmountRaw": "-500000000",
+"withdrawTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"borrowTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"supplyExchangePrice": "1003754764251",
+"borrowExchangePrice": "1005895079183",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "vaultOperates",
+"log_index": 1,
+"fields": {
+"vaultId": "3",
+"vaultConfig": "7tkMzCHrWfMZfQr73MPDBjCevba19MB5KvwkNYQkxgjd",
+"supplyMint": "So11111111111111111111111111111111111111112",
+"borrowMint": "HzwqbKZw8HxMN6bF2yFZNrht3c2iXXzpKcFu7uBEDKtr",
+"nftId": "841",
+"signer": "73Xdxr38MNy4U4Je1JyAcqW8nWaiATJB8Tvkp2JSog5q",
+"to": "73Xdxr38MNy4U4Je1JyAcqW8nWaiATJB8Tvkp2JSog5q",
+"colChangeRaw": "0",
+"debtChangeRaw": "-500000000",
+"vaultType": "T1",
+"instruction": "operate"
+}
+}
+]

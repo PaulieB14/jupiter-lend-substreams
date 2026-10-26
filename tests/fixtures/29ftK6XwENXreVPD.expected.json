@@ -1,0 +1,50 @@
+[
+{
+"list": "liquidityExchangePrices",
+"log_index": 0,
+"fields": {
+"mint": "USDSwr9ApdHk5bvJKMjzff41FfuX8bSxdKcR81vTwcA",
+"supplyExchangePrice": "1035591388832",
+"borrowExchangePrice": "1053370504507",
+"borrowRateBps": "537",
+"utilizationBps": "8650",
+"instruction": "update_exchange_price"
+}
+},
+{
+"list": "earnUpdateRates",
+"log_index": 1,
+"fields": {
+"mint": "USDSwr9ApdHk5bvJKMjzff41FfuX8bSxdKcR81vTwcA",
+"fTokenMint": "j14XLJZSVMcUYpAfajdZRpnfHUpJieZHS4aPektLWvh",
+"lending": "Ey9UTFK5KDMZJuHqndU8kYrSrWHQb5uQqNEaTk57Toc",
+"tokenExchangePrice": "1069454607045",
+"liquidityExchangePrice": "1035591388832",
+"instruction": "update_rate"
+}
+},
+{
+"list": "liquidityExchangePrices",
+"log_index": 2,
+"fields": {
+"mint": "2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH",
+"supplyExchangePrice": "1059024929096",
+"borrowExchangePrice": "1080695268691",
+"borrowRateBps": "598",
+"utilizationBps": "8892",
+"instruction": "update_exchange_price"
+}
+},
+{
+"list": "earnUpdateRates",
+"log_index": 3,
+"fields": {
+"mint": "2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH",
+"fTokenMint": "9fvHrYNw1A8Evpcj7X2yy4k4fT7nNHcA9L6UsamNHAif",
+"lending": "xRVWEc2J4o5BPxEaiZ6jKyvcNmFovrVuYhuowp9hPM4",
+"tokenExchangePrice": "1076082278833",
+"liquidityExchangePrice": "1059024929096",
+"instruction": "update_rate"
+}
+}
+]

@@ -1,0 +1,68 @@
+[
+{
+"list": "vaultUserPositions",
+"log_index": 0,
+"fields": {
+"user": "B9mYNXqfswwnrXzP6jhcpn1yhh2gKkUDDf4DNY124DqP",
+"nftId": "179",
+"vaultId": "101",
+"positionMint": "qzoCCuX5cJffJXdoA7kv6QrECqj7GmQXvVNBLRwQqS4",
+"tick": "-14",
+"colRaw": "1047401793368",
+"borrowRaw": "1025651837343",
+"vaultConfig": "JDjgS9jxAtD9buxiXw53ZM4dMcWkyin6hj5eUHLvx9p1",
+"instruction": "operate"
+}
+},
+{
+"list": "liquidityOperates",
+"log_index": 1,
+"fields": {
+"protocol": "JDjgS9jxAtD9buxiXw53ZM4dMcWkyin6hj5eUHLvx9p1",
+"protocolType": "vault",
+"mint": "sUSDai6Y3GxysDEtA9BVcEFTaog6UZpYUVxJiMhAKYE",
+"supplyAmountRaw": "88671186457",
+"borrowAmountRaw": "0",
+"withdrawTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"borrowTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"supplyExchangePrice": "1000000000000",
+"borrowExchangePrice": "1000000000000",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "liquidityOperates",
+"log_index": 2,
+"fields": {
+"protocol": "JDjgS9jxAtD9buxiXw53ZM4dMcWkyin6hj5eUHLvx9p1",
+"protocolType": "vault",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"supplyAmountRaw": "0",
+"borrowAmountRaw": "87371544400",
+"withdrawTo": "7s1da8DduuBFqGra5bJBjpnvL5E9mGzCuMk1Qkh4or2Z",
+"borrowTo": "B9mYNXqfswwnrXzP6jhcpn1yhh2gKkUDDf4DNY124DqP",
+"supplyExchangePrice": "1046061171955",
+"borrowExchangePrice": "1062324978379",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "vaultOperates",
+"log_index": 3,
+"fields": {
+"vaultId": "101",
+"vaultConfig": "JDjgS9jxAtD9buxiXw53ZM4dMcWkyin6hj5eUHLvx9p1",
+"supplyMint": "sUSDai6Y3GxysDEtA9BVcEFTaog6UZpYUVxJiMhAKYE",
+"borrowMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"nftId": "179",
+"signer": "B9mYNXqfswwnrXzP6jhcpn1yhh2gKkUDDf4DNY124DqP",
+"to": "B9mYNXqfswwnrXzP6jhcpn1yhh2gKkUDDf4DNY124DqP",
+"colChangeRaw": "88671186457",
+"debtChangeRaw": "87371544400",
+"vaultType": "T1",
+"instruction": "operate"
+}
+}
+]

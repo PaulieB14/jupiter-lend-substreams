@@ -1,0 +1,56 @@
+[
+{
+"list": "liquidityOperates",
+"log_index": 0,
+"fields": {
+"protocol": "FfEJYz4hLLFe4KyNyKYCjvfhMfbtpLH3CXpcPe8nhmfy",
+"protocolType": "dex",
+"mint": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+"supplyAmountRaw": "0",
+"borrowAmountRaw": "-29775695",
+"withdrawTo": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+"borrowTo": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+"supplyExchangePrice": "1036808284639",
+"borrowExchangePrice": "1055066344162",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "liquidityOperates",
+"log_index": 1,
+"fields": {
+"protocol": "FfEJYz4hLLFe4KyNyKYCjvfhMfbtpLH3CXpcPe8nhmfy",
+"protocolType": "dex",
+"mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"supplyAmountRaw": "0",
+"borrowAmountRaw": "29740074",
+"withdrawTo": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+"borrowTo": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+"supplyExchangePrice": "1046058263770",
+"borrowExchangePrice": "1062321340287",
+"decimals": "6",
+"instruction": "operate"
+}
+},
+{
+"list": "dexSwaps",
+"log_index": 3,
+"fields": {
+"dexId": "1",
+"swap0To1": "false",
+"maker": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+"to": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+"amountInRaw": "29775703",
+"amountOutRaw": "29740074",
+"feeAmountInRaw": "29",
+"reservesToken0": "255730056877",
+"reservesToken1": "2264276900835",
+"poolPrice": "1001197009907119",
+"dex": "FfEJYz4hLLFe4KyNyKYCjvfhMfbtpLH3CXpcPe8nhmfy",
+"token0": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+"token1": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+"instruction": "swap_in"
+}
+}
+]
