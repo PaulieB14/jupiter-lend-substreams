@@ -14,7 +14,7 @@ def ptype(c):
 def vt(ix):
     ix=ix or ''
     return 'perfect_dex' if ix.endswith('perfect_dex') else ('dex' if ix.endswith('_dex') else 'T1')
-REG={v['vault_config']:v['vault_id'] for v in json.load(open('vault_configs.json'))}
+REG={v['vault_config']:v['vault_id'] for v in json.load(open('/workspace/jl/verify/vault_configs.json'))}
 def expected(e,tx,group):
     f=e['fields'];a=e['accounts'];P=e['program'];N=e['event']
     vid=group.get(e['walk_index'],REG.get(a.get('vault_config',''),0) if P=='vaults' else 0)
@@ -26,6 +26,24 @@ def expected(e,tx,group):
         return 'liquidityCollectRevenues',dict(mint=f['token'],revenueAmountRaw=S(f['revenue_amount']))
     if P=='liquidity' and N=='LogClaim':
         return 'liquidityClaims',dict(user=f['user'],mint=f['token'],recipient=f['recipient'],amountRaw=S(f['amount']))
+    if P=='liquidity' and N=='LogUpdateRateDataV1':
+        r=f['rate_data'];return 'liquidityRateDataV1',dict(mint=f['token'],kinkBps=S(r['kink']),rateAtUtilizationZeroBps=S(r['rate_at_utilization_zero']),rateAtUtilizationKinkBps=S(r['rate_at_utilization_kink']),rateAtUtilizationMaxBps=S(r['rate_at_utilization_max']))
+    if P=='liquidity' and N=='LogUpdateRateDataV2':
+        r=f['rate_data'];return 'liquidityRateDataV2',dict(mint=f['token'],kink1Bps=S(r['kink1']),kink2Bps=S(r['kink2']),rateAtUtilizationZeroBps=S(r['rate_at_utilization_zero']),rateAtUtilizationKink1Bps=S(r['rate_at_utilization_kink1']),rateAtUtilizationKink2Bps=S(r['rate_at_utilization_kink2']),rateAtUtilizationMaxBps=S(r['rate_at_utilization_max']))
+    if P=='liquidity' and N=='LogUpdateTokenConfigs':
+        r=f['token_config'];return 'liquidityTokenConfigs',dict(mint=r['token'],feeBps=S(r['fee']),maxUtilizationBps=S(r['max_utilization']))
+    if P=='liquidity' and N=='LogUpdateUserSupplyConfigs':
+        r=f['user_supply_config'];return 'liquidityUserSupplyConfigs',dict(protocol=f['user'],mint=f['token'],mode=r['mode'],expandPercent=S(r['expand_percent']),expandDuration=S(r['expand_duration']),baseWithdrawalLimit=S(r['base_withdrawal_limit']))
+    if P=='liquidity' and N=='LogUpdateUserBorrowConfigs':
+        r=f['user_borrow_config'];return 'liquidityUserBorrowConfigs',dict(protocol=f['user'],mint=f['token'],mode=r['mode'],expandPercent=S(r['expand_percent']),expandDuration=S(r['expand_duration']),baseDebtCeiling=S(r['base_debt_ceiling']),maxDebtCeiling=S(r['max_debt_ceiling']))
+    if P=='vaults' and N=='LogInitVaultConfig':
+        return 'vaultCreations',dict(vaultConfig=f['vault_config'],supplyToken=a.get('supply_token',''),borrowToken=a.get('borrow_token',''),oracle=a.get('oracle',''),vaultId=REG.get(f['vault_config'],-1))
+    if P=='vaults' and N.startswith('LogUpdate') and N not in ('LogUpdateExchangePrices','LogUpdateAuths','LogUpdateAuthority','LogUpdateCoreSettings'):
+        import re as _re
+        p=_re.sub(r'(?<!^)(?=[A-Z])','_',N[9:]).lower();v=list(f.values())[0]
+        return 'vaultParamUpdates',dict(vaultConfig=a.get('vault_config',''),param=p,value=S(v))
+    if P=='dex' and N=='LogInitDex':
+        return 'dexCreations',dict(dexId=f['dex_id'],token0=f['token_0'],token1=f['token_1'],smartCol=f['smart_col'],smartDebt=f['smart_debt'],fee=f['fee'],revenueCut=f['revenue_cut'],centerPrice=S(f['center_price']))
     if P=='lending' and N=='LogDeposit':
         return 'earnDeposits',dict(sender=f['sender'],receiver=f['receiver'],assetsRaw=S(f['assets']),sharesMintedRaw=S(f['shares_minted']),mint=a.get('mint',''),fTokenMint=a.get('f_token_mint',''),lending=a.get('lending',''))
     if P=='lending' and N=='LogWithdraw':
