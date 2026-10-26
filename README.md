@@ -1,4 +1,4 @@
-# Jupiter Lend on Solana — Substreams
+# Lending & borrowing on Solana: Jupiter Lend Substreams
 
 Jupiter Lend lending & borrowing on Solana (Fluid architecture): Earn deposits and withdrawals, Borrow vault positions and liquidations, liquidity-layer supply/borrow flows, exchange prices, rates, revenue, rewards and the Lend DEX, delivered as Substreams modules and a PostgreSQL sink.
 
